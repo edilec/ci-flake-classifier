@@ -1,13 +1,16 @@
 {
   "name": "ci-flake-classifier",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Classify recurring CI failures by signal, owner and suspected flake pattern.",
   "type": "module",
+  "bin": { "ci-flake-classifier": "./bin/ci-flake-classifier.mjs" },
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test"
+    "lint": "node --check src/index.mjs && node --check bin/ci-flake-classifier.mjs",
+    "test": "node --test",
+    "check": "npm run lint && npm test"
   },
   "license": "MIT",
   "repository": {

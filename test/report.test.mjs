@@ -8,7 +8,7 @@ import { classifyAttempts, LIMITS, parseStrictJson } from '../src/index.mjs';
 
 const attempt = (result = 'pass', testId = 'suite.one', revision = 'abc123', environment = 'linux') => ({ testId, revision, environment, result });
 const doc = (attempts = [attempt(), attempt(), attempt()]) => ({ schemaVersion: '1', complete: true, attempts });
-const run = (root, input) => spawnSync(process.execPath, ['bin/ci-flake-classifier.mjs', '--root', root, '--input', input], { cwd: new URL('..', import.meta.url), encoding: 'utf8', env: { ...process.env, NODE_OPTIONS: '--import=/Users/km/Desktop/web/open-source/migration-plan-template/support/deny-network.mjs' } });
+const run = (root, input) => spawnSync(process.execPath, ['bin/ci-flake-classifier.mjs', '--root', root, '--input', input], { cwd: new URL('..', import.meta.url), encoding: 'utf8', env: { ...process.env, NODE_OPTIONS: `--import=${new URL('../../migration-plan-template/support/deny-network.mjs', import.meta.url).href}` } });
 
 test('three matching successful attempts are clean with ordered history', () => {
   const r = classifyAttempts(doc()); assert.equal(r.status, 'pass'); assert.equal(r.summary.checked, 1); assert.deepEqual(r.classifications[0].outcomes, ['pass', 'pass', 'pass']); assert.deepEqual(r.findings, []);
